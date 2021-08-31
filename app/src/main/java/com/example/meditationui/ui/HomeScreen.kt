@@ -4,7 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -83,22 +85,20 @@ fun ChipSection(
     LazyRow {
 
         items(chips.size) {
-            Box(
+            Card(
                 modifier = Modifier
                     .padding(start = 16.dp, top = 16.dp, bottom = 16.dp)
                     .clickable {
                         selectedIndex = it
-                    }
-                    .clip(RoundedCornerShape(15.dp))
-                    .background(
-                        color = if (selectedIndex == it) ButtonBlue else DarkerButtonBlue
-                    )
-                    .padding(16.dp),
-                contentAlignment = Alignment.Center
+                    },
+                shape = MaterialTheme.shapes.medium.copy(CornerSize(15.dp)),
+                backgroundColor = if (selectedIndex == it) ButtonBlue else DarkerButtonBlue,
+                elevation = 4.dp
             ) {
                 Text(
                     text = chips[it],
                     color = TextWhite,
+                    modifier = Modifier.padding(16.dp)
                 )
             }
         }
