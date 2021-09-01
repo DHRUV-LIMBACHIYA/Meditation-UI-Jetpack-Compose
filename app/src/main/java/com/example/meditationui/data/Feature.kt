@@ -1,7 +1,8 @@
-package com.example.meditationui
+package com.example.meditationui.data
 
 import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color
+import com.example.meditationui.R
 import com.example.meditationui.ui.theme.*
 
 /**

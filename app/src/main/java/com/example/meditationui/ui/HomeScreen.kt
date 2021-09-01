@@ -23,9 +23,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.meditationui.Feature
+import androidx.constraintlayout.compose.ConstraintSet
 import com.example.meditationui.R
-import com.example.meditationui.features
+import com.example.meditationui.data.BottomMenuItem
+import com.example.meditationui.data.Feature
+import com.example.meditationui.data.features
 import com.example.meditationui.ui.theme.*
 
 /**
@@ -35,22 +37,31 @@ import com.example.meditationui.ui.theme.*
 @ExperimentalFoundationApi
 @Composable
 fun HomeScreen() {
-    Column(
+    Box(
         modifier = Modifier
-            .fillMaxSize()
             .background(DeepBlue)
+            .fillMaxSize()
     ) {
-        GreetingSection(name = "Dhruv")
-        ChipSection(chips = listOf("Sweet Sleep", "Insomnia", "Depression", "Anxiety", "Stress"))
-        CurrentMeditation()
-        FeaturedSection(features = features)
+        Column {
+            GreetingSection(name = "Dhruv")
+            ChipSection(chips = listOf("Sweet Sleep", "Insomnia", "Depression", "Anxiety", "Stress"))
+            CurrentMeditation()
+            FeaturedSection(features = features)
+        }
+
+        BottomMenu(bottomMenus = listOf(
+            BottomMenuItem("Home", R.drawable.ic_home),
+            BottomMenuItem("Meditate", R.drawable.ic_bubble),
+            BottomMenuItem("Sleep", R.drawable.ic_moon),
+            BottomMenuItem("Music", R.drawable.ic_music),
+            BottomMenuItem("Profile", R.drawable.ic_profile),
+        ),modifier = Modifier.align(Alignment.BottomCenter))
     }
+
 }
 
 @Composable
-fun GreetingSection(
-    name: String
-) {
+fun GreetingSection(name: String) {
     Row(
 
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -84,9 +95,7 @@ fun GreetingSection(
 }
 
 @Composable
-fun ChipSection(
-    chips: List<String>
-) {
+fun ChipSection(chips: List<String>) {
 
     var selectedIndex by remember {
         mutableStateOf(0)
@@ -115,7 +124,6 @@ fun ChipSection(
         }
     }
 }
-
 
 @Composable
 fun CurrentMeditation() {
@@ -167,7 +175,6 @@ fun CurrentMeditation() {
     }
 }
 
-
 @ExperimentalFoundationApi
 @Composable
 fun FeaturedSection(features: List<Feature>) {
@@ -185,6 +192,7 @@ fun FeaturedSection(features: List<Feature>) {
 
         LazyVerticalGrid(
             cells = GridCells.Fixed(count = 2),
+            contentPadding = PaddingValues(bottom = 100.dp)
         ) {
             items(features.size) {
                 FeatureItem(feature = features[it])
@@ -242,4 +250,79 @@ fun FeatureItem(feature: Feature) {
     }
 }
 
+@Composable
+fun BottomMenu(
+    bottomMenus: List<BottomMenuItem>,
+    activeHighlightColor: Color = ButtonBlue,
+    activeTextColor: Color = TextWhite,
+    inActiveTextColor: Color = AquaBlue,
+    initialSelectedIndex: Int = 0,
+    modifier: Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(DeepBlue)
+            .padding(top = 10.dp, bottom = 10.dp, start = 16.dp, end = 16.dp),
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
 
+        var selectedIndex by remember {
+             mutableStateOf(initialSelectedIndex)
+        }
+
+        bottomMenus.forEachIndexed { index, bottomMenuItem ->
+            BottomMenuItem(
+                bottomMenuItem = bottomMenuItem,
+                isSelected = index == selectedIndex,
+                activeHighlightColor = activeHighlightColor,
+                activeTextColor = activeTextColor,
+                inActiveTextColor = inActiveTextColor,
+            ) {
+                selectedIndex = index
+            }
+        }
+    }
+}
+
+
+@Composable
+fun BottomMenuItem(
+    bottomMenuItem: BottomMenuItem,
+    activeHighlightColor: Color = ButtonBlue,
+    activeTextColor: Color = TextWhite,
+    inActiveTextColor: Color = AquaBlue,
+    isSelected: Boolean,
+    onItemClick: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .clickable {
+                onItemClick()
+            },
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .clip(RoundedCornerShape(14.dp))
+                .background(if (isSelected) activeHighlightColor else Color.Transparent)
+        ) {
+            Icon(
+                painter = painterResource(id = bottomMenuItem.iconId),
+                contentDescription = bottomMenuItem.title,
+                tint = if (isSelected) Color.White else AquaBlue,
+                modifier = Modifier
+                    .padding(10.dp)
+                    .size(24.dp)
+            )
+        }
+
+        Text(
+            text = bottomMenuItem.title,
+            modifier = Modifier.padding(top = 4.dp),
+            color = if (isSelected) activeTextColor else inActiveTextColor,
+        )
+    }
+}
