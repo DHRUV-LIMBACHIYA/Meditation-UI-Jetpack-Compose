@@ -38,5 +38,12 @@ val Typography = Typography(
         fontSize = 18.sp,
         fontFamily = gothicA1,
         fontWeight = FontWeight.Bold
+    ),
+    h4 = TextStyle(
+        color = TextWhite,
+        fontSize = 14.sp,
+        fontFamily = gothicA1,
+        fontWeight = FontWeight.SemiBold
     )
+
 )
