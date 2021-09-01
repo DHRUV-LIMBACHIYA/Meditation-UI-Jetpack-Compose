@@ -10,11 +10,9 @@ import com.example.meditationui.R
 
 val gothicA1 = FontFamily(
     listOf(
-        Font(R.font.gothica1_regular, FontWeight.Normal),
-        Font(R.font.gothica1_medium, FontWeight.Medium),
-        Font(R.font.gothica1_semibold, FontWeight.SemiBold),
-        Font(R.font.gothica1_bold, FontWeight.Bold),
-        Font(R.font.gothica1_black, FontWeight.Black),
+        Font(R.font.nunito_regular, FontWeight.Normal),
+        Font(R.font.nunito_semibold, FontWeight.SemiBold),
+        Font(R.font.nunito_bold, FontWeight.Bold),
     )
 )
 
