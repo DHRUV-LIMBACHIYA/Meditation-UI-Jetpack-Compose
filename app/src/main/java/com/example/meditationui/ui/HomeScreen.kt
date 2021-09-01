@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.res.painterResource
@@ -141,21 +142,15 @@ fun ChipSection(chips: List<String>) {
 
 @Composable
 fun CurrentMeditation() {
-    Card(
-        shape = MaterialTheme.shapes.medium.copy(CornerSize(16.dp)),
-        backgroundColor = LightRed,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.padding(
-                vertical = 30.dp,
-                horizontal = 20.dp
-            )
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .background(Brush.horizontalGradient(listOf(DarkRed,LightRed), startX = 20f))
+                .padding(vertical = 30.dp, horizontal = 20.dp)
         ) {
             Column {
                 Text(
@@ -186,7 +181,6 @@ fun CurrentMeditation() {
                 )
             }
         }
-    }
 }
 
 @ExperimentalFoundationApi
